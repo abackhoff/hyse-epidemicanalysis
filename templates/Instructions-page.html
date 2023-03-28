@@ -72,38 +72,38 @@
 
 <body>
     <header class="header-1">
-        <img src="home-button-image.png" alt="Image 1">
-        <!-- Content for header 1 goes here -->
-        <img src="HSeY.png" alt="Image 1">
+      <img src="{{ url_for('static', filename='images/home-button-image.png') }}" alt="Image 1">
+        <img src="{{ url_for('static', filename='images/HSeY.png') }}" alt="Image 1">
+
     </header>
 
     <header class="header-2">
-        <img src="northeastern-COE.png" alt="Image 2">
+        <img src="{{ url_for('static', filename='images/northeastern-COE.png') }}" alt="Image 2">
         <!-- Content for header 2 goes here -->
         <div class="button" style="margin-right: 40px;">
      
                 <a href="Home Page.html" download>
-                    <a href="https://www.coe.northeastern.edu/Groups/emerging_epidemics/home-page.html" >
+                    <a href="{{ url_for('home') }}">
                 <button>Home</button>
                 </a>
     
         </div>
                     <div class="Button" style="margin-right: 40px;">
-                    <a href="https://www.coe.northeastern.edu/Groups/emerging_epidemics/Instructions-page.html" >
+                    <a href="{{ url_for('instructions') }}">
                 <button> Insctructions </button>
                 </a>
         </div>
 
 
             <div class="Button" style="margin-right: 40px;">
-                <a href="https://hyse-epidemicanalysis.herokuapp.com/">
+                <a href="{{ url_for('create_spc_charts') }}">
              <button> Create SPC Chart </button>
              </a>
 
         </div>
 
             <div class="Button" style="margin-right: 40px;">
-                <a href="https://www.coe.northeastern.edu/Groups/emerging_epidemics/Feedback.html">
+                <a href="{{ url_for('feedback') }}">
                 <button> Feedback  </button>
                 </a>
             
@@ -127,17 +127,17 @@
   <div class="container">
      <div class="button-container">
         <button-1 class="button">
-          <a href="https://www.facebook.com/northeastern/"><img src="facebook.jpg" alt="Facebook" style="width: 25px; height: 25px;"></a>
-        </button-1>
-        <button-1 class="button">
-          <a href="https://twitter.com/Northeastern?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><img src="twitter.jpg" alt="Twitter" style="width: 25px; height: 25px;"></a>
-        </button-1>
-        <button-1 class="button">
-          <a href="https://www.instagram.com/northeastern/?hl=en"><img src="instagram.jpg" alt="Instagram" style="width: 25px; height: 25px;"></a>
-        </button-1>
-        <button-1 class="button">
-          <a href="https://www.linkedin.com/school/northeastern-university/"><img src="linkedin.jpg" alt="LinkedIn" style="width: 25px; height: 25px;"></a>
-        </button-1>
+                            <a href="https://www.facebook.com/northeastern/"><img src="{{ url_for('static', filename='images/facebook.jpg') }}" alt="Facebook" style="width: 25px; height: 25px;"></a>
+                        </button-1>
+                        <button-1 class="button">
+                            <a href="https://twitter.com/Northeastern?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><img src="{{ url_for('static', filename='images/twitter.jpg') }}" alt="Twitter" style="width: 25px; height: 25px;"></a>
+                        </button-1>
+                        <button-1 class="button">
+                            <a href="https://www.instagram.com/northeastern/?hl=en"><img src="{{ url_for('static', filename='images/instagram.jpg') }}" alt="Instagram" style="width: 25px; height: 25px;"></a>
+                        </button-1>
+                        <button-1 class="button">
+                             <a href="https://www.linkedin.com/school/northeastern-university/"><img src="{{ url_for('static', filename='images/linkedin.jpg') }}" alt="LinkedIn" style="width: 25px; height: 25px;"></a>
+                         </button-1>
      </div>
   </div> 
 </footer>

@@ -14,7 +14,7 @@ def home():
 
 @app.route('/instructions')
 def instructions():
-    return render_template('instructions-page.html')
+    return render_template('Instructions-page.html')
 
 @app.route('/create-spc-charts')
 def create_spc_charts():

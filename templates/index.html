@@ -125,7 +125,16 @@
         </div>
     </header>
 
+
+
     <h1>Upload Excel file and choose analysis parameters</h1>
+
+<div class="button" style="margin-left: 80px;margin-top: 80px">
+    <a href="InfectionDataTemplate.xlsx">
+        <button style="background-color: white; color: black; font-weight: bold; font-size: 16px; padding: 10px 20px; border-radius: 4px; border: 2px solid green;">Download Excel File</button>
+    </a>
+</div>
+
     <form action="/upload" method="post" enctype="multipart/form-data">
         <label for="excel_file">Excel File:</label>
         <input type="file" name="excel_file" accept=".xls,.xlsx" required>

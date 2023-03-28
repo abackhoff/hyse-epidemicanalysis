@@ -1,8 +1,123 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Excel Chart Generator</title>
-    <script>
+    <title>My Webpage</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            
+        }
+
+        header.header-1 {
+            background-color: black;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            margin-bottom: 50px;
+        }
+
+        header.header-1 img {
+            height: 100%;
+        }
+
+        header.header-2 {
+            background-color: white;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            margin-top: 50px;
+            border-top: 2px solid gray;
+            border-bottom: 2px solid gray;
+        }
+
+        header.header-2 img {
+            height: 60%;
+            margin-right: 20px;
+        }
+        
+
+        button {
+            background-color: white;
+            border: none;
+            border-radius: 4px;
+            color: black;
+            font-size: 14px;
+            padding: 8px;
+            width: 200px;
+}
+ button-1
+        {
+            background-color: none;
+            border: none;
+            border-radius: 1px;
+            color: black;
+            font-size: 14px;
+            padding: 10px;
+            width: 10px;
+        }
+
+
+
+
+
+        button:hover {
+            background-color: #E50000;
+        }
+    
+
+
+        
+    
+
+        
+    </style>
+  <link rel="stylesheet" href="dropdown.css">
+</head>
+<body>
+    <header class="header-1">
+        <img src="home-button-image.png" alt="Image 1">
+        <!-- Content for header 1 goes here -->
+        <img src="HSeY.png" alt="Image 1">
+    </header>
+
+    <header class="header-2">
+        <img src="northeastern-COE.png" alt="Image 2">
+        <!-- Content for header 2 goes here -->
+        <div class="button" style="margin-right: 40px;">
+     
+            <a href="https://www.coe.northeastern.edu/Groups/emerging_epidemics/home-page.html" >
+                <button> Home </button>
+                </a>
+    
+        </div>
+    
+            <div class="Button" style="margin-right: 40px;">
+                <a href="https://www.coe.northeastern.edu/Groups/emerging_epidemics/Instructions-page.html"/>
+             <button> Instructions </button>
+             </a>
+
+        </div>
+
+            <div class="Button" style="margin-right: 40px;">
+                     <a href="https://www.coe.northeastern.edu/Groups/emerging_epidemics/Create-SPC-Charts.html"/>
+                <button> Creat SPC Charts </button>
+                </a>
+            
+        </div>
+
+         <div class="Button" style="margin-right: 40px;">
+            <a href="https://www.coe.northeastern.edu/Groups/emerging_epidemics/Feedback.html"/>
+                <button> Feedback </button>
+                </a>
+            
+        </div>
+<script>
         function handlePurposeChange(purposeSelect) {
             var dataTypeLabel = document.getElementById("data_type_label");
             var dataTypeSelect = document.getElementById("data_type");
@@ -39,9 +154,26 @@
         }
     }
     </script>
-</head>
-<body>
-    <h1>Upload Excel file and choose analysis parameters</h1>
+
+
+    </header>
+
+  
+
+
+<div class="dropdown">
+ 
+<form style="float:right; width:60%; margin-top: 40px">
+
+
+
+</div>
+<div class="button" style="margin-left: 80px;margin-top: 80px">
+    <a href="InfectionDataTemplate.xlsx">
+        <button style="background-color: white; color: black; font-weight: bold; font-size: 16px; padding: 10px 20px; border-radius: 4px; border: 2px solid green;">Download Excel File</button>
+    </a>
+</div>
+
     <form action="/upload" method="post" enctype="multipart/form-data">
         <label for="excel_file">Excel File:</label>
         <input type="file" name="excel_file" accept=".xls,.xlsx" required>
@@ -69,7 +201,29 @@
         <br><br>
         <button type="submit">Generate Chart</button>
     </form>
-    
-    {{ chart_div | safe }}
+
+<footer style="background-color: #E50000; color: white; padding: 30px; position: fixed; bottom: 0; width: 100%;">
+    <span style="float: left; margin-right: 10px; font-family: helvetica neue, sans-serif; font-size: 18px; display: block;">Northeastern Univeristy</span>
+<div class="container" style="clear: both;">
+  <span style="float: left; margin-right: 300px; font-family: helvetica neue, sans-serif;font-size: 18px;">College of Engineering</span>
+  <span style="float: left; margin-right: 10px; font-family: helvetica neue, sans-serif;font-size: 10px;">CONNECT WITH COE</span>
+  <div class="container">
+  <div class="container">
+     <div class="button-container">
+        <button-1 class="button">
+          <a href="https://www.facebook.com/northeastern/"><img src="facebook.jpg" alt="Facebook" style="width: 25px; height: 25px;"></a>
+        </button-1>
+        <button-1 class="button">
+          <a href="https://twitter.com/Northeastern?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><img src="twitter.jpg" alt="Twitter" style="width: 25px; height: 25px;"></a>
+        </button-1>
+        <button-1 class="button">
+          <a href="https://www.instagram.com/northeastern/?hl=en"><img src="instagram.jpg" alt="Instagram" style="width: 25px; height: 25px;"></a>
+        </button-1>
+        <button-1 class="button">
+          <a href="https://www.linkedin.com/school/northeastern-university/"><img src="linkedin.jpg" alt="LinkedIn" style="width: 25px; height: 25px;"></a>
+        </button-1>
+     </div>
+  </div> 
+</footer>
 </body>
 </html>

@@ -84,27 +84,4 @@ def generate_chart(chart_type, data):
 
 if _name_ == '_main_':
     app.run(debug=True)
-[1:40 PM, 3/28/2023] Pato Gutierrez: <!-- index.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Excel Chart Generator</title>
-</head>
-<body>
-    <h1>Upload Excel file and choose chart type</h1>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <label for="excel_file">Excel File:</label>
-        <input type="file" name="excel_file" accept=".xls,.xlsx" required>
-        <br><br>
-        <label for="chart_type">Chart Type:</label>
-        <select name="chart_type" required>
-            <option value="">--Please choose a chart type--</option>
-            <option value="u_chart">U-Chart</option>
-            <option value="p_chart">P-Chart</option>
-            <option value="ma_chart">MA-Chart</option>
-        </select>
-        <br><br>
-        <button type="submit">Generate Chart</button>
-    </form>
-</body>
-</html>
+

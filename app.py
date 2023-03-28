@@ -9,8 +9,20 @@ import os
 app = Flask(__name__)
 
 @app.route('/')
-def index():
+def home():
+    return render_template('home-page.html')
+
+@app.route('/instructions')
+def instructions():
+    return render_template('instructions-page.html')
+
+@app.route('/create-spc-charts')
+def create_spc_charts():
     return render_template('index.html')
+
+@app.route('/feedback')
+def feedback():
+    return render_template('Feedback.html')
 
 @app.route('/upload', methods=['POST'])
 def upload():

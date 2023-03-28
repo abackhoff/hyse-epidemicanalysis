@@ -13,4 +13,4 @@ def process():
     return f'Hello, {name}! You are {age} years old.'
 
 if __name__ == '__main__':
-    app.run(debug=False,host='0.0.0.0')
+    app.run(debug=True)

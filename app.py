@@ -23,11 +23,11 @@ def upload():
     df = pd.read_excel(excel_file, engine='openpyxl')
 
     if chart_choice == 'u_chart':
-        chart = create_u_chart(df)
+        chart = generate_chart('u-chart', df)
     elif chart_choice == 'p_chart':
-        chart = create_p_chart(df)
+        chart = generate_chart('p-chart', df)
     elif chart_choice == 'ma_chart':
-        chart = create_ma_chart(df)
+        chart = generate_chart('ma-chart', df)
     else:
         return 'Invalid chart type', 400
 
@@ -80,7 +80,7 @@ def generate_chart(chart_type, data):
         fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=ucl, y1=ucl, yref='y', xref='x', line=dict(color='green'))
         fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=lcl, y1=lcl, yref='y', xref='x', line=dict(color='green'))
 
-    fig.show()
+    return fig
 
 if _name_ == '_main_':
     app.run(debug=True)

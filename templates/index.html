@@ -171,19 +171,69 @@
 <div style="margin-left: 80px;margin-right: 1240px; margin-top: 40px; color: black; font-weight: bold; font-size: 16px; padding: 10px 20px; border-radius: 4px; border: 2px solid #E50000 ;"> 
     Upload Excel File 
 </div>
+<script>
+        function handlePurposeChange(purposeSelect) {
+            var dataTypeLabel = document.getElementById("data_type_label");
+            var dataTypeSelect = document.getElementById("data_type");
+            var analysisSelect = document.getElementById("analysis_type");
+
+            dataTypeLabel.style.display = purposeSelect.value === "new_outbreaks" ? "block" : "none";
+            dataTypeSelect.style.display = purposeSelect.value === "new_outbreaks" ? "block" : "none";
+            analysisSelect.options.length = 0;
+
+            if (purposeSelect.value === "new_outbreaks") {
+                dataTypeSelect.selectedIndex = 0;
+            }
+        }
+
+        function handleDataTypeChange(dataTypeSelect) {
+            var analysisSelect = document.getElementById("analysis_type");
+            var analysisOptions = {
+                case_counts: ["U-Chart", "Moving Averages", "EMWAs", "Scan Statistics"],
+                positivity_rates: ["P-Chart", "Moving Averages", "EMWAs", "Scan Statistics"],
+                multivariate_data: ["Control charts", "Scan Statistics"]
+            };
+
+            analysisSelect.options.length = 0;
+
+            if (dataTypeSelect.value) {
+                var options = analysisOptions[dataTypeSelect.value];
+                for (var i = 0; i < options.length; i++) {
+                    var opt = document.createElement("option");
+                    opt.value = options[i];
+                    opt.innerHTML = options[i];
+                    opt.disabled = (options[i] === "EMWAs" || options[i] === "Scan Statistics");
+                    analysisSelect.add(opt);
+                }
+            }
+        }
+    </script>
 <div style="margin-left: 75px;margin-top: 10px">
 
-     <h1>Upload Excel file and choose chart type</h1>
+     <h1>Upload Excel file and choose analysis parameters</h1>
     <form action="/upload" method="post" enctype="multipart/form-data">
         <label for="excel_file">Excel File:</label>
         <input type="file" name="excel_file" accept=".xls,.xlsx" required>
         <br><br>
-        <label for="chart_type">Chart Type:</label>
-        <select name="chart_type" required>
-            <option value="">--Please choose a chart type--</option>
-            <option value="u-chart">U-Chart</option>
-            <option value="p-chart">P-Chart</option>
-            <option value="ma-chart">MA-Chart</option>
+        <label for="purpose">Purpose:</label>
+        <select name="purpose" id="purpose" onchange="handlePurposeChange(this);" required>
+            <option value="">--Please choose a purpose--</option>
+            <option value="new_outbreaks">New outbreaks + Changes in baselines</option>
+            <option value="changes_in_trajectories" disabled>Changes in Trajectories</option>
+            <option value="end_of_outbreak" disabled>End of Outbreak</option>
+        </select>
+        <br><br>
+        <label for="data_type" id="data_type_label" style="display: none;">Data Type:</label>
+        <select name="data_type" id="data_type" style="display: none;" onchange="handleDataTypeChange(this);">
+            <option value="">--Please choose a data type--</option>
+            <option value="case_counts">Case Counts</option>
+            <option value="positivity_rates">Positivity Rates</option>
+            <option value="multivariate_data" disabled>Multivariate Data</option>
+        </select>
+        <br><br>
+        <label for="analysis_type">Analysis Type:</label>
+        <select name="analysis_type" id="analysis_type" required>
+            <option value="">--Please choose an analysis type--</option>
         </select>
         <br><br>
         <button type="submit">Generate Chart</button>

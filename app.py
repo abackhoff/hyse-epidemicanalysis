@@ -26,9 +26,8 @@ def upload():
         return 'Invalid chart type', 400
 
     chart = generate_chart(chart_choice, df)  # Call the generate_chart function here
-    chart_file = f"{chart_choice}.html"
-    pio.write_html(chart, file=chart_file, full_html=False)
-    return send_file(chart_file, as_attachment=True)
+    chart_dic = pio.to_html(chart, full_html=False)
+    return render_template('index.html', chart_div=chart_div)
 
 import numpy as np
 import plotly.express as px

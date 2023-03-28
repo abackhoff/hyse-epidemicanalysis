@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 
-app = Flask(_name_)
+app = Flask(__name__)
 
 @app.route('/')
 def home():
@@ -12,5 +12,5 @@ def process():
     age = request.form['age']
     return f'Hello, {name}! You are {age} years old.'
 
-if _name_ == '_main_':
+if __name__ == '__main__':
     app.run(debug=True)

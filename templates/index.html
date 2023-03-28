@@ -165,15 +165,10 @@
  
 <form style="float:right; width:60%; margin-top: 40px">
 
-<table>
-    <thead>
-        <tr>
-            <th>
-    <form action="/upload" method="post" enctype="multipart/form-data">
+ <form action="/upload" method="post" enctype="multipart/form-data">
         <label for="excel_file">Excel File:</label>
         <input type="file" name="excel_file" accept=".xls,.xlsx" required>
-     </th>
-     <th>
+        <br><br>
         <label for="purpose">Purpose:</label>
         <select name="purpose" id="purpose" onchange="handlePurposeChange(this);" required>
             <option value="">--Please choose a purpose--</option>
@@ -181,8 +176,7 @@
             <option value="changes_in_trajectories" disabled>Changes in Trajectories</option>
             <option value="end_of_outbreak" disabled>End of Outbreak</option>
         </select>
-    </th>
-   <th>
+        <br><br>
         <label for="data_type" id="data_type_label" style="display: none;">Data Type:</label>
         <select name="data_type" id="data_type" style="display: none;" onchange="handleDataTypeChange(this);">
             <option value="">--Please choose a data type--</option>
@@ -190,25 +184,19 @@
             <option value="positivity_rates">Positivity Rates</option>
             <option value="multivariate_data" disabled>Multivariate Data</option>
         </select>
-    </th>
-  <th>
+        <br><br>
         <label for="analysis_type">Analysis Type:</label>
         <select name="analysis_type" id="analysis_type" required>
             <option value="">--Please choose an analysis type--</option>
         </select>
-    </th>
-</form>
-
-    </tr>
-</thead>
-</table>
-
+        <br><br>
         <button type="submit">Generate Chart</button>
-    
+    </form>
     
     {{ chart_div | safe }}
 
 </form>
+
 
 </div>
 <div class="button" style="margin-left: 80px;margin-top: 80px">

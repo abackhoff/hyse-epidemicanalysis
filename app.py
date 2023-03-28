@@ -6,7 +6,7 @@ import plotly.express as px
 import plotly.io as pio
 import os
 
-app = Flask(__name__)
+app = Flask(_name_)
 
 @app.route('/')
 def index():
@@ -14,7 +14,9 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    chart_choice = request.form.get('chart_type')
+    purpose_choice = request.form.get('purpose')
+    data_type_choice = request.form.get('data_type')
+    analysis_choice = request.form.get('analysis_type')
     excel_file = request.files.get('excel_file')
 
     if not excel_file:
@@ -22,12 +24,13 @@ def upload():
 
     df = pd.read_excel(excel_file, engine='openpyxl')
 
-    if chart_choice not in ['u-chart', 'p-chart', 'ma-chart']:
-        return 'Invalid chart type', 400
-
-    chart = generate_chart(chart_choice, df)  # Call the generate_chart function here
-    chart_div = pio.to_html(chart, full_html=False)
-    return render_template('index.html', chart_div=chart_div)
+    # You will need to update the condition here and call the generate_chart function with the appropriate arguments
+    if purpose_choice == 'new_outbreaks' and data_type_choice and analysis_choice:
+        chart = generate_chart(analysis_choice, df)
+        chart_div = pio.to_html(chart, full_html=False)
+        return render_template('index.html', chart_div=chart_div)
+    else:
+        return 'Invalid input', 400
 
 import numpy as np
 import plotly.express as px

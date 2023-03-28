@@ -18,26 +18,26 @@
         }
 
         function handleDataTypeChange(dataTypeSelect) {
-            var analysisSelect = document.getElementById("analysis_type");
-            var analysisOptions = {
-                case_counts: ["U-Chart", "Moving Averages", "EMWAs", "Scan Statistics"],
-                positivity_rates: ["P-Chart", "Moving Averages", "EMWAs", "Scan Statistics"],
-                multivariate_data: ["Control charts", "Scan Statistics"]
-            };
+        var analysisSelect = document.getElementById("analysis_type");
+        var analysisOptions = {
+            case_counts: ["u-chart", "ma-chart", "emwas", "scan_statistics"],
+            positivity_rates: ["p-chart", "ma-chart", "emwas", "scan_statistics"],
+            multivariate_data: ["control_charts", "scan_statistics"]
+        };
 
-            analysisSelect.options.length = 0;
+        analysisSelect.options.length = 0;
 
-            if (dataTypeSelect.value) {
-                var options = analysisOptions[dataTypeSelect.value];
-                for (var i = 0; i < options.length; i++) {
-                    var opt = document.createElement("option");
-                    opt.value = options[i];
-                    opt.innerHTML = options[i];
-                    opt.disabled = (options[i] === "EMWAs" || options[i] === "Scan Statistics");
-                    analysisSelect.add(opt);
-                }
+        if (dataTypeSelect.value) {
+            var options = analysisOptions[dataTypeSelect.value];
+            for (var i = 0; i < options.length; i++) {
+                var opt = document.createElement("option");
+                opt.value = options[i];
+                opt.innerHTML = options[i].replace(/_/g, " ").replace(/-/g, " ").replace(/(?: |\b)(\w)/g, function(key) { return key.toUpperCase() });
+                opt.disabled = (options[i] === "emwas" || options[i] === "scan_statistics");
+                analysisSelect.add(opt);
             }
         }
+    }
     </script>
 </head>
 <body>

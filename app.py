@@ -26,7 +26,7 @@ def upload():
         return 'Invalid chart type', 400
 
     chart = generate_chart(chart_choice, df)  # Call the generate_chart function here
-    chart_dic = pio.to_html(chart, full_html=False)
+    chart_div = pio.to_html(chart, full_html=False)
     return render_template('index.html', chart_div=chart_div)
 
 import numpy as np

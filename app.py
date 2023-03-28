@@ -22,15 +22,10 @@ def upload():
 
     df = pd.read_excel(excel_file, engine='openpyxl')
 
-    if chart_choice == 'u_chart':
-        chart = generate_chart('u-chart', df)
-    elif chart_choice == 'p_chart':
-        chart = generate_chart('p-chart', df)
-    elif chart_choice == 'ma_chart':
-        chart = generate_chart('ma-chart', df)
-    else:
+    if chart_choice not in ['u-chart', 'p-chart', 'ma-chart']:
         return 'Invalid chart type', 400
 
+    chart = generate_chart(chart_choice, df)  # Call the generate_chart function here
     chart_file = f"{chart_choice}.html"
     pio.write_html(chart, file=chart_file, full_html=False)
     return send_file(chart_file, as_attachment=True)

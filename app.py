@@ -6,7 +6,7 @@ import plotly.express as px
 import plotly.io as pio
 import os
 
-app = Flask(_name_)
+app = Flask(__name__)
 
 @app.route('/')
 def index():

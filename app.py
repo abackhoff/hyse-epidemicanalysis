@@ -50,7 +50,7 @@ def generate_chart(chart_type, data):
         # Calculate control limits for p-chart
         pbar = data['Infection Rate'].mean()
         ucl_p_chart = pbar + 3 * np.sqrt(pbar * (1 - pbar) / data['Sample Size'])
-        lcl-p_chart = pbar - 3 * np.sqrt(pbar * (1 - pbar) / data['Sample Size'])
+        lcl_p_chart = pbar - 3 * np.sqrt(pbar * (1 - pbar) / data['Sample Size'])
         lcl_p_chart = np.where(lcl_p_chart < 0, 0, lcl_p_chart)  # LCL should not be negative
 
         fig = px.line(data, x='Period', y='Infection Rate', title='P-chart', labels={'Infection Rate': 'Proportion of Infections'})

@@ -122,26 +122,26 @@
     <header class="header-2">
         <img src="{{ url_for('static', filename='images/northeastern-COE.png') }}" alt="Image 2">
         <div class="button" style="margin-right: 40px;">
-                        <a href="https://www.coe.northeastern.edu/Groups/emerging_epidemics/home-page.html">
+                        <a href="{{ url_for('home') }}">
                 <button>Home</button>
             </a>
         </div>
 
         <div class="Button" style="margin-right: 40px;">
-            <a href="https://www.coe.northeastern.edu/Groups/emerging_epidemics/Instructions-page.html"/>
+            <a href="{{ url_for('instructions') }}">
             <button>Instructions</button>
             </a>
         </div>
 
         <div class="Button" style="margin-right: 40px;">
-            <a href="https://hyse-epidemicanalysis.herokuapp.com/"/>
+            <a href="{{ url_for('create_spc_charts') }}">
             <button>Create SPC Charts</button>
             </a>
    
         </div>
 
         <div class="Button" style="margin-right: 40px;">
-            <a href="https://www.coe.northeastern.edu/Groups/emerging_epidemics/Feedback.html"/>
+            <a href="{{ url_for('feedback') }}">
             <button>Feedback</button>
             </a>
         </div>

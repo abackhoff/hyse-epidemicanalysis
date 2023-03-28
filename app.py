@@ -36,27 +36,27 @@ import plotly.express as px
 def generate_chart(chart_type, data):
     if chart_type == 'u-chart':
         # Calculate control limits for u-chart
-        cl-u-chart = data['Infection Rate'].mean()
-        ucl-u-chart = cl-u-chart + 3 * np.sqrt(cl-u-chart / data['Sample Size'])
-        lcl-u-chart = cl-u-chart - 3 * np.sqrt(cl-u-chart / data['Sample Size'])
-        lcl -u-chart= np.where(lcl < 0, 0, lcl)  # LCL should not be negative
+        cl_u_chart = data['Infection Rate'].mean()
+        ucl_u_chart = cl_u_chart + 3 * np.sqrt(cl_u_chart / data['Sample Size'])
+        lcl_u_chart = cl_u_chart - 3 * np.sqrt(cl_u_chart / data['Sample Size'])
+        lcl_u_chart= np.where(lcl_u_chart < 0, 0, lcl_u_chart)  # LCL should not be negative
 
         fig = px.line(data, x='Period', y='Infection Rate', title='U-chart', labels={'Infection Rate': 'Infections per Sample'})
-        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=cl-u-chart, y1=cl-u-chart, yref='y', xref='x', line=dict(color='red'))
-        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=ucl-u-chart, y1=ucl-u-chart, yref='y', xref='x', line=dict(color='green'))
-        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=lcl-u-chart, y1=lcl-u-chart, yref='y', xref='x', line=dict(color='green'))
+        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=cl_u_chart, y1=cl_u_chart, yref='y', xref='x', line=dict(color='red'))
+        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=ucl_u_chart, y1=ucl_u_chart, yref='y', xref='x', line=dict(color='green'))
+        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=lcl_u_chart, y1=lcl_u_chart, yref='y', xref='x', line=dict(color='green'))
 
     elif chart_type == 'p-chart':
         # Calculate control limits for p-chart
         pbar = data['Infection Rate'].mean()
-        ucl-p-chart = pbar + 3 * np.sqrt(pbar * (1 - pbar) / data['Sample Size'])
-        lcl-p-chart = pbar - 3 * np.sqrt(pbar * (1 - pbar) / data['Sample Size'])
-        lcl-p-chart = np.where(lcl < 0, 0, lcl)  # LCL should not be negative
+        ucl_p_chart = pbar + 3 * np.sqrt(pbar * (1 - pbar) / data['Sample Size'])
+        lcl-p_chart = pbar - 3 * np.sqrt(pbar * (1 - pbar) / data['Sample Size'])
+        lcl_p_chart = np.where(lcl_p_chart < 0, 0, lcl_p_chart)  # LCL should not be negative
 
         fig = px.line(data, x='Period', y='Infection Rate', title='P-chart', labels={'Infection Rate': 'Proportion of Infections'})
         fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=pbar, y1=pbar, yref='y', xref='x', line=dict(color='red'))
-        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=ucl-p-chart, y1=ucl-p-chart, yref='y', xref='x', line=dict(color='green'))
-        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=lcl-p-chart, y1=lcl-p-chart, yref='y', xref='x', line=dict(color='green'))
+        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=ucl_p_chart, y1=ucl_p_chart, yref='y', xref='x', line=dict(color='green'))
+        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=lcl_p_chart, y1=lcl_p_chart, yref='y', xref='x', line=dict(color='green'))
 
     elif chart_type == 'ma-chart':
         # Calculate control limits for MA-chart
@@ -65,15 +65,15 @@ def generate_chart(chart_type, data):
         data['Moving Range'] = data['Infection Rate'].rolling(window=2).apply(lambda x: np.abs(x[1] - x[0]), raw=True)
         mrbar = data['Moving Range'].mean()
         sigma = mrbar / (1.128 * np.sqrt(window_size))
-        cl-ma-chart = data['Moving Average'].mean()
-        ucl-ma-chart = cl-ma-chart + 3 * sigma
-        lcl-ma-chart = cl-ma-chart - 3 * sigma
-        lcl-ma-chart = np.where(lcl < 0, 0, lcl)  # LCL should not be negative
+        cl_ma_chart = data['Moving Average'].mean()
+        ucl_ma_chart = cl_ma_chart + 3 * sigma
+        lcl_ma_chart = cl_ma_chart - 3 * sigma
+        lcl_ma_chart = np.where(lcl_ma_chart < 0, 0, lcl_ma_chart)  # LCL should not be negative
 
         fig = px.line(data, x='Period', y='Moving Average', title='MA-chart', labels={'Moving Average': 'Moving Average of Infection Rate'})
-        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=cl-ma-chart, y1=cl-ma-chart, yref='y', xref='x', line=dict(color='red'))
-        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=ucl-ma-chart, y1=ucl-ma-chart, yref='y', xref='x', line=dict(color='green'))
-        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=lcl-ma-chart, y1=lcl-ma-chart, yref='y', xref='x', line=dict(color='green'))
+        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=cl_ma_chart, y1=cl_ma_chart, yref='y', xref='x', line=dict(color='red'))
+        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=ucl_ma_chart, y1=ucl_ma_chart, yref='y', xref='x', line=dict(color='green'))
+        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=lcl_ma_chart, y1=lcl_ma_chart, yref='y', xref='x', line=dict(color='green'))
 
     return fig
 

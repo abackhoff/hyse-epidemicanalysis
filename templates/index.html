@@ -53,6 +53,27 @@
         button:hover {
             background-color: #E50000;
         }
+
+        .content {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            padding: 40px 0;
+        }
+
+        .content > div {
+            flex: 1;
+            max-width: 30%;
+            text-align: center;
+        }
+        
+        .chart-display {
+            border: 1px solid #ccc;
+            padding: 20px;
+            max-width: 70%;
+            min-height: 500px;
+        }
+
     </style>
     <script>
         function handlePurposeChange(purposeSelect) {
@@ -125,45 +146,49 @@
         </div>
     </header>
 
+    <div class="content">
+        <div class="download-excel">
+            <div class="button" style="margin-bottom: 80px">
+                <a href="InfectionDataTemplate.xlsx">
+                    <button style="background-color: white; color: black; font-weight: bold; font-size: 16px; padding: 10px 20px; border-radius: 4px; border: 2px solid green;">Download Excel File</button>
+                </a>
+            </div>
+        </div>
 
-
-    <h1>Upload Excel file and choose analysis parameters</h1>
-
-<div class="button" style="margin-left: 80px;margin-top: 20px; margin-bottom: 20px">
-    <a href="InfectionDataTemplate.xlsx">
-        <button style="background-color: white; color: black; font-weight: bold; font-size: 16px; padding: 10px 20px; border-radius: 4px; border: 2px solid green;">Download Excel File</button>
-    </a>
-</div>
-
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <label for="excel_file">Excel File:</label>
-        <input type="file" name="excel_file" accept=".xls,.xlsx" required>
-        <br><br>
-        <label for="purpose">Purpose:</label>
-        <select name="purpose" id="purpose" onchange="handlePurposeChange(this);" required>
-            <option value="">--Please choose a purpose--</option>
-            <option value="new_outbreaks">New outbreaks + Changes in baselines</option>
-            <option value="changes_in_trajectories" disabled>Changes in Trajectories</option>
-            <option value="end_of_outbreak" disabled>End of Outbreak</option>
-        </select>
-        <br><br>
-        <label for="data_type" id="data_type_label" style="display: none;">Data Type:</label>
-        <select name="data_type" id="data_type" style="display: none;" onchange="handleDataTypeChange(this);">
-            <option value="">--Please choose a data type--</option>
-            <option value="case_counts">Case Counts</option>
-            <option value="positivity_rates">Positivity Rates</option>
-            <option value="multivariate_data" disabled>Multivariate Data</option>
-        </select>
-        <br><br>
-        <label for="analysis_type">Analysis Type:</label>
-        <select name="analysis_type" id="analysis_type" required>
-            <option value="">--Please choose an analysis type--</option>
-        </select>
-        <br><br>
-        <button type="submit">Generate Chart</button>
-    </form>
-    
-    {{ chart_div | safe }}
+        <div class="upload-form">
+            <h1>Upload Excel file and choose analysis parameters</h1>
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <label for="excel_file">Excel File:</label>
+                <input type="file" name="excel_file" accept=".xls,.xlsx" required>
+                <br><br>
+                <label for="purpose">Purpose:</label>
+                <select name="purpose" id="purpose" onchange="handlePurposeChange(this);" required>
+                    <option value="">--Please choose a purpose--</option>
+                    <option value="new_outbreaks">New outbreaks + Changes in baselines</option>
+                    <option value="changes_in_trajectories" disabled>Changes in Trajectories</option>
+                    <option value="end_of_outbreak" disabled>End of Outbreak</option>
+                </select>
+                <br><br>
+                <label for="data_type" id="data_type_label" style="display: none;">Data Type:</label>
+                <select name="data_type" id="data_type" style="display: none;" onchange="handleDataTypeChange(this);">
+                    <option value="">--Please choose a data type--</option>
+                    <option value="case_counts">Case Counts</option>
+                    <option value="positivity_rates">Positivity Rates</option>
+                    <option value="multivariate_data" disabled>Multivariate Data</option>
+                </select>
+                <br><br>
+                <label for="analysis_type">Analysis Type:</label>
+                <select name="analysis_type" id="analysis_type" required>
+                    <option value="">--Please choose an analysis type--</option>
+                </select>
+                <br><br>
+                <button type="submit">Generate Chart</button>
+            </form>
+        </div>
+        <div class="chart-display">
+            {{ chart_div | safe }}
+        </div>
+    </div>
 
     <footer style="background-color: #E50000; color: white; padding: 30px; position: fixed; bottom: 0; width: 100%;">
         <span style="float: left; margin-right: 10px; font-family: helvetica neue, sans-serif; font-size: 18px; display: block;">Northeastern Univeristy</span>

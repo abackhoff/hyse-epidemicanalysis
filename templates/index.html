@@ -96,7 +96,18 @@
                 case_counts: ["u-chart", "ma-chart", "emwas", "scan_statistics"],
                 positivity_rates: ["p-chart", "ma-chart", "emwas", "scan_statistics"],
                 multivariate_data: ["control_charts", "scan_statistics"]
+                 var maWindowSizeLabel = document.getElementById("ma_window_size_label");
+                var maWindowSizeInput = document.getElementById("ma_window_size");
+                maWindowSizeLabel.style.display = dataTypeSelect.value && analysisSelect.value === "ma-chart" ? "block" : "none";
+                maWindowSizeInput.style.display = dataTypeSelect.value && analysisSelect.value === "ma-chart" ? "block" : "none";
             };
+        function handleAnalysisTypeChange(analysisSelect) {
+         var maWindowSizeLabel = document.getElementById("ma_window_size_label");
+        var maWindowSizeInput = document.getElementById("ma_window_size");
+          maWindowSizeLabel.style.display = analysisSelect.value === "ma-chart" ? "block" : "none";
+          maWindowSizeInput.style.display = analysisSelect.value === "ma-chart" ? "block" : "none";
+        }
+            
 
             analysisSelect.options.length = 0;
 
@@ -111,6 +122,12 @@
                 }
             }
         }
+        
+        
+        <label for="ma_window_size" id="ma_window_size_label" style="display: none;">MA Window Size:</label>
+        <input type="number" name="ma_window_size" id="ma_window_size" min="1" style="display: none;">
+             
+             
     </script>
 </head>
 <body>
@@ -179,7 +196,7 @@
                 </select>
                 <br><br>
                 <label for="analysis_type">Analysis Type:</label>
-                <select name="analysis_type" id="analysis_type" required>
+                <select name="analysis_type" id="analysis_type" onchange="handleAnalysisTypeChange(this);" required>
                     <option value="">--Please choose an analysis type--</option>
                 </select>
                 <br><br>

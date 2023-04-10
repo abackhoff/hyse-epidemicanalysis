@@ -177,7 +177,8 @@
     maWindowSizeDiv.style.display = analysisSelect.value === "ma-chart" ? "block" : "none";
     maWindowSizeLabel.style.display = analysisSelect.value === "ma-chart" ? "inline-block" : "none";
     maWindowSizeInput.style.display = analysisSelect.value === "ma-chart" ? "inline-block" : "none";
-}                 
+}
+          
     </script>
 </head>
 <body>
@@ -254,7 +255,7 @@
                     <option value="">--Please choose an analysis type--</option>
                 </select>
                 </div>
-                <div class="form-group" style="display: none;">
+                <div class="form-group" style="display: none;" id="ma_window_size_div">
                     <label for="ma_window_size" id="ma_window_size_label">MA Window Size:</label>
                     <input type="number" name="ma_window_size" id="ma_window_size" min="1" step="1">
                 </div>

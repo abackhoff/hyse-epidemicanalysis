@@ -100,7 +100,20 @@
             display: inline-block;
             vertical-align: middle;
         }
+        .form-group label[for="analysis_type"], #analysis_type {
+            text-align: left;
+            display: block;
+        }
+        .form-group label[for="data_type"], #data_type {
+            text-align: left;
+            display: block;
+        }
 
+        .form-group label[for="purpose"], #purpose {
+            text-align: left;
+            display: block;
+        }
+        
         .upload-form label {
             width: 110px;
             text-align: left;
@@ -156,14 +169,14 @@
         
         function handleAnalysisTypeChange(analysisSelect) {
     var dataTypeSelect = document.getElementById("data_type");
+    var maWindowSizeDiv = document.getElementById("ma_window_size_div");
     var maWindowSizeLabel = document.getElementById("ma_window_size_label");
     var maWindowSizeInput = document.getElementById("ma_window_size");
-    var maWindowSizeDiv = document.getElementById("ma_window_size_div"); // Add this line
 
-    maWindowSizeLabel.style.display = dataTypeSelect.value && analysisSelect.value === "ma-chart" ? "block" : "none";
-    maWindowSizeInput.style.display = dataTypeSelect.value && analysisSelect.value === "ma-chart" ? "block" : "none";
-    maWindowSizeDiv.style.display = dataTypeSelect.value && analysisSelect.value === "ma-chart" ? "block" : "none"; // Add this line
-}                        
+    maWindowSizeDiv.style.display = analysisSelect.value === "ma-chart" ? "block" : "none";
+    maWindowSizeLabel.style.display = analysisSelect.value === "ma-chart" ? "inline-block" : "none";
+    maWindowSizeInput.style.display = analysisSelect.value === "ma-chart" ? "inline-block" : "none";
+}                 
     </script>
 </head>
 <body>

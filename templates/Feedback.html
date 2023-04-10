@@ -127,12 +127,13 @@
 
     <p style="text-align: left; color: black;font-size: 12px;">Please leave any feedback related to our tool here! We will make sure to take it into consideration while developing the next version of this tool! :)
 </p>
-<form action="send-email.php" method="post">
-  <textarea rows="8" cols="50" name="message"></textarea><br><br>
-  <label for="email">Your email:</label>
-  <input type="email" name="email" required><br><br>
-  <input type="submit" value="Send">
+<form action="/send-feedback" method="post">
+  <input type="text" name="name" placeholder="Your Name">
+  <input type="email" name="email" placeholder="Your Email">
+  <textarea name="message" placeholder="Your Message"></textarea>
+  <button type="submit">Submit</button>
 </form>
+
   </div>
   
 

@@ -88,18 +88,27 @@
             align-items: center;
             margin-bottom: 20px;
         }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label,
+        .form-group input,
+        .form-group select {
+            display: inline-block;
+            vertical-align: middle;
+        }
 
         .upload-form label {
-            display: inline-block;
             width: 110px;
-            text-align: right;
+            text-align: left;
             margin-right: 10px;
         }
 
         .upload-form select,
         .upload-form input {
-            display: inline-block;
-            vertical-align: middle;
+            margin-bottom: 0;
         }
     </style>
     <script>
@@ -108,13 +117,15 @@
             var dataTypeSelect = document.getElementById("data_type");
             var analysisSelect = document.getElementById("analysis_type");
 
-            dataTypeLabel.style.display = purposeSelect.value === "new_outbreaks" ? "block" : "none";
-            dataTypeSelect.style.display = purposeSelect.value === "new_outbreaks" ? "block" : "none";
+            dataTypeLabel.parentNode.style.display = purposeSelect.value === "new_outbreaks" ? "block" : "none";
+            dataTypeSelect.parentNode.style.display = purposeSelect.value === "new_outbreaks" ? "block" : "none";
             analysisSelect.options.length = 0;
 
             if (purposeSelect.value === "new_outbreaks") {
                 dataTypeSelect.selectedIndex = 0;
             }
+
+            handleDataTypeChange(dataTypeSelect);
         }
 
         function handleDataTypeChange(dataTypeSelect) {
@@ -197,34 +208,38 @@
         <div class="upload-form">
             <h1>Upload Excel file and choose analysis parameters</h1>
             <form action="/upload" method="post" enctype="multipart/form-data">
-                <label for="excel_file">Excel File:</label>
-                <input type="file" name="excel_file" accept=".xls,.xlsx" required>
-                <br><br>
-                <label for="purpose">Purpose:</label>
-                <select name="purpose" id="purpose" onchange="handlePurposeChange(this);" required>
-                    <option value="">--Please choose a purpose--</option>
-                    <option value="new_outbreaks">New outbreaks + Changes in baselines</option>
-                    <option value="changes_in_trajectories" disabled>Changes in Trajectories</option>
-                    <option value="end_of_outbreak" disabled>End of Outbreak</option>
-                </select>
-                <br><br>
-                <label for="data_type" id="data_type_label" style="display: none;">Data Type:</label>
-                <select name="data_type" id="data_type" style="display: none;" onchange="handleDataTypeChange(this);">
-                    <option value="">--Please choose a data type--</option>
-                    <option value="case_counts">Case Counts</option>
-                    <option value="positivity_rates">Positivity Rates</option>
-                    <option value="multivariate_data" disabled>Multivariate Data</option>
-                </select>
-                <br><br>
-                <label for="analysis_type">Analysis Type:</label>
-                <select name="analysis_type" id="analysis_type" onchange="handleAnalysisTypeChange(this);" required>
+                <div class="form-group">
+                    <label for="excel_file">Excel File:</label>
+                    <input type="file" name="excel_file" accept=".xls,.xlsx" required>
+                </div>
+                <div class="form-group">
+                    <label for="purpose">Purpose:</label>
+                    <select name="purpose" id="purpose" onchange="handlePurposeChange(this);" required>
+                        <option value="">--Please choose a purpose--</option>
+                        <option value="new_outbreaks">New outbreaks + Changes in baselines</option>
+                        <option value="changes_in_trajectories" disabled>Changes in Trajectories</option>
+                        <option value="end_of_outbreak" disabled>End of Outbreak</option>
+                    </select>
+                </div>
+                <div class="form-group" style="display: none;">
+                    <label for="data_type" id="data_type_label">Data Type:</label>
+                    <select name="data_type" id="data_type" onchange="handleDataTypeChange(this);">
+                        <option value="">--Please choose a data type--</option>
+                        <option value="case_counts">Case Counts</option>
+                        <option value="positivity_rates">Positivity Rates</option>
+                        <option value="multivariate_data" disabled>Multivariate Data</option>
+                    </select>
+                </div>
+                <div class="form-group" style="display: none;">
+                    <label for="analysis_type">Analysis Type:</label>
+                    <select name="analysis_type" id="analysis_type" onchange="handleAnalysisTypeChange(this);" required>
                     <option value="">--Please choose an analysis type--</option>
                 </select>
-                <div id="ma_window_size_div" style="display: none;">
-    <label for="ma_window_size" id="ma_window_size_label">MA Window Size:</label>
-    <input type="number" name="ma_window_size" id="ma_window_size" min="1" step="1">
-    <br><br>
-</div>
+                </div>
+                <div class="form-group" style="display: none;">
+                    <label for="ma_window_size" id="ma_window_size_label">MA Window Size:</label>
+                    <input type="number" name="ma_window_size" id="ma_window_size" min="1" step="1">
+                </div>
     <button type="submit">Generate Chart</button>
             </form>
         </div>

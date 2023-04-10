@@ -90,6 +90,7 @@
         }
         
         .form-group {
+            display: block;
             margin-bottom: 20px;
         }
 
@@ -143,10 +144,13 @@
         for (var i = 0; i < options.length; i++) {
             var opt = document.createElement("option");
             opt.value = options[i];
-            opt.innerHTML = options[i].replace(/_/g, " ").replace(/-/g, " ").replace(/(?: |\b)(\w)/g, function (key) { return key.toUpperCase() });
+            opt.innerHTML = options[i].replace(/_/g, " ").replace(/-/g, " ").replace(/\b\w/g, function (key) { return key.toUpperCase() });
             opt.disabled = (options[i] === "emwas" || options[i] === "scan_statistics");
             analysisSelect.add(opt);
         }
+        analysisSelect.parentNode.style.display = "block"; // add this line
+    } else {
+        analysisSelect.parentNode.style.display = "none"; // add this line
     }
 }
         

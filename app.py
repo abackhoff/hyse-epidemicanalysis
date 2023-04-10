@@ -36,6 +36,8 @@ def upload():
         return 'No file uploaded', 400
 
     df = pd.read_excel(excel_file, engine='openpyxl')
+    
+    df['Infection Rate'] = df['Infection Count'] / df['Sample Size']
 
     if purpose_choice == 'new_outbreaks' and data_type_choice and analysis_choice:
         chart = generate_chart(analysis_choice, df, ma_window_size)

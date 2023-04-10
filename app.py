@@ -51,21 +51,20 @@ import plotly.express as px
 
 def generate_chart(chart_type, data, ma_window_size=None):
     if chart_type == 'u-chart':
-        # Calculate control limits for u-chart
         cl_u_chart = data['Infection Rate'].mean()
         ucl_u_chart = cl_u_chart + 3 * np.sqrt(cl_u_chart / data['Sample Size'])
         lcl_u_chart = cl_u_chart - 3 * np.sqrt(cl_u_chart / data['Sample Size'])
-        lcl_u_chart= np.where(lcl_u_chart < 0, 0, lcl_u_chart)  # LCL should not be negative
+        lcl_u_chart = np.where(lcl_u_chart < 0, 0, lcl_u_chart)  # LCL should not be negative
 
         fig = px.line(data, x='Period', y='Infection Rate', title='U-chart', labels={'Infection Rate': 'Infections per Sample'})
         fig.add_scatter(x=data['Period'], y=data['Infection Rate'], mode='markers', marker=dict(color=np.where((data['Infection Rate'] > ucl_u_chart) | (data['Infection Rate'] < lcl_u_chart), 'red', 'rgba(0,0,0,0)')), name='Out of Control')
         fig.update_traces(selector=dict(type='scatter', mode='markers'), showlegend=False)
         fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=cl_u_chart, y1=cl_u_chart, yref='y', xref='x', line=dict(color='red'))
-        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=ucl_u_chart, y1=ucl_u_chart, yref='y', xref='x', line=dict(color='green'))
-        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=lcl_u_chart, y1=lcl_u_chart, yref='y', xref='x', line=dict(color='green'))
+
+        fig.add_scatter(x=data['Period'], y=ucl_u_chart, mode='lines', line=dict(color='green'), name='UCL')
+        fig.add_scatter(x=data['Period'], y=lcl_u_chart, mode='lines', line=dict(color='green'), name='LCL')
 
     elif chart_type == 'p-chart':
-        # Calculate control limits for p-chart
         pbar = data['Infection Rate'].mean()
         ucl_p_chart = pbar + 3 * np.sqrt(pbar * (1 - pbar) / data['Sample Size'])
         lcl_p_chart = pbar - 3 * np.sqrt(pbar * (1 - pbar) / data['Sample Size'])
@@ -75,31 +74,25 @@ def generate_chart(chart_type, data, ma_window_size=None):
         fig.add_scatter(x=data['Period'], y=data['Infection Rate'], mode='markers', marker=dict(color=np.where((data['Infection Rate'] > ucl_p_chart) | (data['Infection Rate'] < lcl_p_chart), 'red', 'rgba(0,0,0,0)')), name='Out of Control')
         fig.update_traces(selector=dict(type='scatter', mode='markers'), showlegend=False)
         fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=pbar, y1=pbar, yref='y', xref='x', line=dict(color='red'))
-        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=ucl_p_chart, y1=ucl_p_chart, yref='y', xref='x', line=dict(color='green'))
-        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=lcl_p_chart, y1=lcl_p_chart, yref='y', xref='x', line=dict(color='green'))
 
-    elif chart_type == 'ma-chart':
-        # Calculate control limits for MA-chart
-        window_size = ma_window_size
-        data['Moving Average'] = data['Infection Rate'].rolling(window=window_size).mean()
-        data['Moving Range'] = data['Infection Rate'].rolling(window=2).apply(lambda x: np.abs(x[1] - x[0]), raw=True)
-        mrbar = data['Moving Range'].mean()
-        sigma = mrbar / (1.128 * np.sqrt(window_size))
-        cl_ma_chart = data['Moving Average'].mean()
-        ucl_ma_chart = cl_ma_chart + 3 * sigma
-        lcl_ma_chart = cl_ma_chart - 3 * sigma
-        lcl_ma_chart = np.where(lcl_ma_chart < 0, 0, lcl_ma_chart)  # LCL should not be negative
+        fig.add_scatter(x=data['Period'], y=ucl_p_chart, mode='lines', line=dict(color='green'), name='UCL')
+        fig.add_scatter(x=data['Period'], y=lcl_p_chart, mode='lines', line=dict(color='green'), name='LCL')
 
-        fig = px.line(data, x='Period', y='Moving Average', title='MA-chart', labels={'Moving Average': 'Moving Average of Infection Rate'})
-        fig.add_scatter(x=data['Period'], y=data['Moving Average'], mode='markers', marker=dict(color=np.where((data['Moving Average'] > ucl_ma_chart) | (data['Moving Average'] < lcl_ma_chart), 'red', 'rgba(0,0,0,0)')), name='Out of Control')
-        fig.update_traces(selector=dict(type='scatter', mode='markers'), showlegend=False)
-        fig.add_scatter(x=data['Period'], y=data['Infection Rate'], mode='lines', line=dict(dash='dash'), name='Actual Infection Rate')
-        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=cl_ma_chart, y1=cl_ma_chart, yref='y', xref='x', line=dict(color='red'))
-        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=ucl_ma_chart, y1=ucl_ma_chart, yref='y', xref='x', line=dict(color='green'))
-        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=lcl_ma_chart, y1=lcl_ma_chart, yref='y', xref='x', line=dict(color='green'))
+     elif chart_type == 'ma-chart':
+        data['Moving Average'] = data['Infection Rate'].rolling(window=ma_window_size).mean()
 
-    return fig
+        mstd = data['Infection Rate'].rolling(window=ma_window_size).std()
+        ucl_ma_chart = data['Moving Average'] + 3 * mstd
+        lcl_ma_chart = data['Moving Average'] - 3 * mstd
 
+        fig = px.line(data, x='Period', y='Infection Rate', title='MA-chart', labels={'Infection Rate': 'Infections'})
+        fig.add_scatter(x=data['Period'], y=data['Moving Average'], mode='lines', line=dict(color='red'), name='Moving Average')
+
+        fig.add_scatter(x=data['Period'], y=ucl_ma_chart, mode='lines', line=dict(color='green'), name='UCL')
+        fig.add_scatter(x=data['Period'], y=lcl_ma_chart, mode='lines', line=dict(color='green'), name='LCL')
+
+    fig.update_layout(legend=dict(orientation='h', yanchor='bottom', y=-0.2))
+    fig.show()
 
 
 if __name__ == '__main__':

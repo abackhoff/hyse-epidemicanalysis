@@ -113,8 +113,10 @@
 }
         
         function handleAnalysisTypeChange(analysisSelect) {
+    var dataTypeSelect = document.getElementById("data_type");
     var maWindowSizeLabel = document.getElementById("ma_window_size_label");
     var maWindowSizeInput = document.getElementById("ma_window_size");
+    
     maWindowSizeLabel.style.display = dataTypeSelect.value && analysisSelect.value === "ma-chart" ? "block" : "none";
     maWindowSizeInput.style.display = dataTypeSelect.value && analysisSelect.value === "ma-chart" ? "block" : "none";
 }

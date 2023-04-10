@@ -1,5 +1,6 @@
 # app.py
 from flask import Flask, render_template, request, send_file
+from email import send_email
 import pandas as pd
 import numpy as np
 import plotly.express as px

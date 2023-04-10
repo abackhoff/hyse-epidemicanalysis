@@ -1,5 +1,6 @@
 # app.py
 from flask import Flask, render_template, request, send_file
+from email_utils import send_email
 import pandas as pd
 import numpy as np
 import plotly.express as px
@@ -19,6 +20,19 @@ def instructions():
 @app.route('/create-spc-charts')
 def create_spc_charts():
     return render_template('index.html')
+
+@app.route('/send-mail', methods=['GET', 'POST'])
+def send_mail():
+    if request.method == 'POST':
+        recipient = request.form['recipient']
+        subject = request.form['subject']
+        body = request.form['body']
+
+        send_email(recipient, subject, body)
+
+        return 'Email sent successfully'
+    else:
+        return render_template('send-mail.html')
 
 @app.route('/feedback')
 def feedback():

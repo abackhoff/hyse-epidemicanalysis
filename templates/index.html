@@ -91,43 +91,33 @@
         }
 
         function handleDataTypeChange(dataTypeSelect) {
-            var analysisSelect = document.getElementById("analysis_type");
-            var analysisOptions = {
-                case_counts: ["u-chart", "ma-chart", "emwas", "scan_statistics"],
-                positivity_rates: ["p-chart", "ma-chart", "emwas", "scan_statistics"],
-                multivariate_data: ["control_charts", "scan_statistics"]
-                 var maWindowSizeLabel = document.getElementById("ma_window_size_label");
-                var maWindowSizeInput = document.getElementById("ma_window_size");
-                maWindowSizeLabel.style.display = dataTypeSelect.value && analysisSelect.value === "ma-chart" ? "block" : "none";
-                maWindowSizeInput.style.display = dataTypeSelect.value && analysisSelect.value === "ma-chart" ? "block" : "none";
-            };
-        
-            analysisSelect.options.length = 0;
+    var analysisSelect = document.getElementById("analysis_type");
+    var analysisOptions = {
+        case_counts: ["u-chart", "ma-chart", "emwas", "scan_statistics"],
+        positivity_rates: ["p-chart", "ma-chart", "emwas", "scan_statistics"],
+        multivariate_data: ["control_charts", "scan_statistics"]
+    };
 
-            if (dataTypeSelect.value) {
-                var options = analysisOptions[dataTypeSelect.value];
-                for (var i = 0; i < options.length; i++) {
-                    var opt = document.createElement("option");
-                    opt.value = options[i];
-                    opt.innerHTML = options[i].replace(/_/g, " ").replace(/-/g, " ").replace(/(?: |\b)(\w)/g, function(key) { return key.toUpperCase() });
-                    opt.disabled = (options[i] === "emwas" || options[i] === "scan_statistics");
-                    analysisSelect.add(opt);
-                }
-            }
-        }
-        
-        function handleAnalysisTypeChange(analysisSelect) {
-        var maWindowSizeDiv = document.getElementById("ma_window_size_div");
-        var maWindowSizeInput = document.getElementById("ma_window_size");
+    analysisSelect.options.length = 0;
 
-        if (analysisSelect.value === "ma-chart") {
-            maWindowSizeDiv.style.display = "block";
-            maWindowSizeInput.required = true;
-        } else {
-            maWindowSizeDiv.style.display = "none";
-            maWindowSizeInput.required = false;
+    if (dataTypeSelect.value) {
+        var options = analysisOptions[dataTypeSelect.value];
+        for (var i = 0; i < options.length; i++) {
+            var opt = document.createElement("option");
+            opt.value = options[i];
+            opt.innerHTML = options[i].replace(/_/g, " ").replace(/-/g, " ").replace(/(?: |\b)(\w)/g, function (key) { return key.toUpperCase() });
+            opt.disabled = (options[i] === "emwas" || options[i] === "scan_statistics");
+            analysisSelect.add(opt);
         }
     }
+}
+        
+        function handleAnalysisTypeChange(analysisSelect) {
+    var maWindowSizeLabel = document.getElementById("ma_window_size_label");
+    var maWindowSizeInput = document.getElementById("ma_window_size");
+    maWindowSizeLabel.style.display = dataTypeSelect.value && analysisSelect.value === "ma-chart" ? "block" : "none";
+    maWindowSizeInput.style.display = dataTypeSelect.value && analysisSelect.value === "ma-chart" ? "block" : "none";
+}
              
              
     </script>

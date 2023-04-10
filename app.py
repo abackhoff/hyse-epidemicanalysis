@@ -92,7 +92,7 @@ def generate_chart(chart_type, data, ma_window_size=None):
         fig.add_scatter(x=data['Period'], y=ucl_p_chart, mode='lines', line=dict(color='green'), name='UCL')
         fig.add_scatter(x=data['Period'], y=lcl_p_chart, mode='lines', line=dict(color='green'), name='LCL')
 
-     elif chart_type == 'ma-chart':
+    elif chart_type == 'ma-chart':
         data['Moving Average'] = data['Infection Rate'].rolling(window=ma_window_size).mean()
 
         mstd = data['Infection Rate'].rolling(window=ma_window_size).std()

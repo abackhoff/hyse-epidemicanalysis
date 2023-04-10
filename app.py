@@ -32,7 +32,7 @@ def send_mail():
 
         return 'Email sent successfully'
     else:
-        return render_template('send-mail.html')
+        return render_template('feedback.html')
 
 @app.route('/feedback')
 def feedback():

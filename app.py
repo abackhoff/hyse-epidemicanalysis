@@ -29,7 +29,7 @@ def upload():
     purpose_choice = request.form.get('purpose')
     data_type_choice = request.form.get('data_type')
     analysis_choice = request.form.get('analysis_type')
-    ma_window_size = int(request.form.get('ma_window_size') or 10)
+    ma_window_size = request.form.get('ma_window_size', type=int)
     excel_file = request.files.get('excel_file')
 
     if not excel_file:
@@ -37,8 +37,6 @@ def upload():
 
     df = pd.read_excel(excel_file, engine='openpyxl')
 
-    # You will need to update the condition here and call the generate_chart function with the appropriate arguments
-    
     if purpose_choice == 'new_outbreaks' and data_type_choice and analysis_choice:
         chart = generate_chart(analysis_choice, df, ma_window_size)
         chart_div = pio.to_html(chart, full_html=False)
@@ -49,7 +47,7 @@ def upload():
 import numpy as np
 import plotly.express as px
 
-def generate_chart(chart_type, data, ma_window_size=10):
+def generate_chart(chart_type, data, ma_window_size=None):
     if chart_type == 'u-chart':
         # Calculate control limits for u-chart
         cl_u_chart = data['Infection Rate'].mean()

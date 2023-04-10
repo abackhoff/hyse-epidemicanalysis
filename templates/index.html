@@ -101,14 +101,7 @@
                 maWindowSizeLabel.style.display = dataTypeSelect.value && analysisSelect.value === "ma-chart" ? "block" : "none";
                 maWindowSizeInput.style.display = dataTypeSelect.value && analysisSelect.value === "ma-chart" ? "block" : "none";
             };
-        function handleAnalysisTypeChange(analysisSelect) {
-         var maWindowSizeLabel = document.getElementById("ma_window_size_label");
-        var maWindowSizeInput = document.getElementById("ma_window_size");
-          maWindowSizeLabel.style.display = analysisSelect.value === "ma-chart" ? "block" : "none";
-          maWindowSizeInput.style.display = analysisSelect.value === "ma-chart" ? "block" : "none";
-        }
-            
-
+        
             analysisSelect.options.length = 0;
 
             if (dataTypeSelect.value) {
@@ -123,9 +116,18 @@
             }
         }
         
-        
-        <label for="ma_window_size" id="ma_window_size_label" style="display: none;">MA Window Size:</label>
-        <input type="number" name="ma_window_size" id="ma_window_size" min="1" style="display: none;">
+        function handleAnalysisTypeChange(analysisSelect) {
+        var maWindowSizeDiv = document.getElementById("ma_window_size_div");
+        var maWindowSizeInput = document.getElementById("ma_window_size");
+
+        if (analysisSelect.value === "ma-chart") {
+            maWindowSizeDiv.style.display = "block";
+            maWindowSizeInput.required = true;
+        } else {
+            maWindowSizeDiv.style.display = "none";
+            maWindowSizeInput.required = false;
+        }
+    }
              
              
     </script>
@@ -199,8 +201,12 @@
                 <select name="analysis_type" id="analysis_type" onchange="handleAnalysisTypeChange(this);" required>
                     <option value="">--Please choose an analysis type--</option>
                 </select>
-                <br><br>
-                <button type="submit">Generate Chart</button>
+                <div id="ma_window_size_div" style="display: none;">
+        <label for="ma_window_size">MA Window Size:</label>
+        <input type="number" name="ma_window_size" id="ma_window_size" min="1" step="1">
+        <br><br>
+    </div>
+    <button type="submit">Generate Chart</button>
             </form>
         </div>
         <div class="chart-display">

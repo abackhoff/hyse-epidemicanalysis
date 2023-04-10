@@ -59,6 +59,8 @@ def generate_chart(chart_type, data, ma_window_size=None):
         lcl_u_chart= np.where(lcl_u_chart < 0, 0, lcl_u_chart)  # LCL should not be negative
 
         fig = px.line(data, x='Period', y='Infection Rate', title='U-chart', labels={'Infection Rate': 'Infections per Sample'})
+        fig.add_scatter(x=data['Period'], y=data['Infection Rate'], mode='markers', marker=dict(color=np.where((data['Infection Rate'] > ucl_u_chart) | (data['Infection Rate'] < lcl_u_chart), 'red', 'rgba(0,0,0,0)')), name='Out of Control')
+        fig.update_traces(selector=dict(type='scatter', mode='markers'), showlegend=False)
         fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=cl_u_chart, y1=cl_u_chart, yref='y', xref='x', line=dict(color='red'))
         fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=ucl_u_chart, y1=ucl_u_chart, yref='y', xref='x', line=dict(color='green'))
         fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=lcl_u_chart, y1=lcl_u_chart, yref='y', xref='x', line=dict(color='green'))
@@ -71,6 +73,8 @@ def generate_chart(chart_type, data, ma_window_size=None):
         lcl_p_chart = np.where(lcl_p_chart < 0, 0, lcl_p_chart)  # LCL should not be negative
 
         fig = px.line(data, x='Period', y='Infection Rate', title='P-chart', labels={'Infection Rate': 'Proportion of Infections'})
+        fig.add_scatter(x=data['Period'], y=data['Infection Rate'], mode='markers', marker=dict(color=np.where((data['Infection Rate'] > ucl_p_chart) | (data['Infection Rate'] < lcl_p_chart), 'red', 'rgba(0,0,0,0)')), name='Out of Control')
+        fig.update_traces(selector=dict(type='scatter', mode='markers'), showlegend=False)
         fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=pbar, y1=pbar, yref='y', xref='x', line=dict(color='red'))
         fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=ucl_p_chart, y1=ucl_p_chart, yref='y', xref='x', line=dict(color='green'))
         fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=lcl_p_chart, y1=lcl_p_chart, yref='y', xref='x', line=dict(color='green'))
@@ -88,11 +92,16 @@ def generate_chart(chart_type, data, ma_window_size=None):
         lcl_ma_chart = np.where(lcl_ma_chart < 0, 0, lcl_ma_chart)  # LCL should not be negative
 
         fig = px.line(data, x='Period', y='Moving Average', title='MA-chart', labels={'Moving Average': 'Moving Average of Infection Rate'})
+        fig.add_scatter(x=data['Period'], y=data['Moving Average'], mode='markers', marker=dict(color=np.where((data['Moving Average'] > ucl_ma_chart) | (data['Moving Average'] < lcl_ma_chart), 'red', 'rgba(0,0,0,0)')), name='Out of Control')
+        fig.update_traces(selector=dict(type='scatter', mode='markers'), showlegend=False)
+        fig.add_scatter(x=data['Period'], y=data['Infection Rate'], mode='lines', line=dict(dash='dash'), name='Actual Infection Rate')
         fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=cl_ma_chart, y1=cl_ma_chart, yref='y', xref='x', line=dict(color='red'))
         fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=ucl_ma_chart, y1=ucl_ma_chart, yref='y', xref='x', line=dict(color='green'))
         fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=lcl_ma_chart, y1=lcl_ma_chart, yref='y', xref='x', line=dict(color='green'))
 
     return fig
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

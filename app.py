@@ -1,5 +1,6 @@
 # app.py
 from flask import Flask, render_template, request, send_file
+from flask_mail import Mail, Message
 import pandas as pd
 import numpy as np
 import plotly.express as px
@@ -7,6 +8,36 @@ import plotly.io as pio
 import os
 
 app = Flask(__name__)
+
+
+# Configure Flask-Mail with your email server settings
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'albertobackhoff@gmail.com'
+app.config['MAIL_PASSWORD'] = 'Boston2020'
+
+mail = Mail(app)
+
+@app.route('/send_feedback', methods=['POST'])
+def send_feedback():
+    name = request.form['name']
+    email = request.form['email']
+    message = request.form['message']
+
+    # Create the email message
+    msg = Message('Feedback from {}'.format(name),
+                  sender=email,
+                  recipients=['your_email_address'])
+
+    msg.body = 'From: {}\nEmail: {}\n\n{}'.format(name, email, message)
+
+    # Send the email
+    mail.send(msg)
+
+    # Redirect the user or display a success message
+    flash('Feedback sent successfully!', 'success')
+    return redirect(url_for('index'))
 
 @app.route('/')
 def home():

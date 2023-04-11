@@ -53,9 +53,17 @@ def upload():
     
     start_date = pd.to_datetime(request.form.get('start-date'))
     end_date = pd.to_datetime(request.form.get('end-date'))
+    
+    if start_date is None:
+        start_date = df['Date'].min()  # Default to the earliest date in the dataframe
+    if end_date is None:
+        end_date = df['Date'].max()
 
-    # Filter DataFrame based on start_date and end_date
-    df = df[(df['Date'] >= start_date) & (df['Date'] <= end_date)]
+    if start_date is not None and end_date is not None:
+        df = df[(df['Date'] >= start_date) & (df['Date'] <= end_date)]
+    else:
+        error_message = "Invalid date range. Please ensure both start_date and end_date are valid."
+        return render_template('index.html', error_message=error_message)
 
     df['Infection Rate'] = df['Infection Count'] / df['Sample Size']
 

@@ -67,8 +67,8 @@ def generate_chart(chart_type, data, ma_window_size=None):
     if chart_type == 'u-chart':
         u_bar = data['Infection Count'].sum() / data['Sample Size'].sum()
         cl_u_chart = u_bar
-        ucl_u_chart = cl_u_chart + 3 * np.sqrt(cl_u_chart/data['Sample Size'])
-        lcl_u_chart = cl_u_chart - 3 * np.sqrt(cl_u_chart/data['Sample Size'])
+        ucl_u_chart = u_bar + 3 * np.sqrt(u_bar/data['Sample Size'])
+        lcl_u_chart = u_bar - 3 * np.sqrt(u_bar/data['Sample Size'])
         lcl_u_chart = np.where(lcl_u_chart < 0, 0, lcl_u_chart)
 
         fig = px.line(data, x='Period', y='Infection Rate', title='U-chart', labels={'Infection Rate': 'Infections per Sample'})
@@ -103,6 +103,7 @@ def generate_chart(chart_type, data, ma_window_size=None):
         lcl_ma_chart = np.maximum(lcl_ma_chart, 0)  # LCL should not be negative
 
         fig = px.line(data, x='Period', y='Moving Average', title='Moving Average Chart', labels={'Moving Average': 'Infection Rate'})
+        fig.add_scatter(x=data['Period'], y=data['Infection Rate'], mode='lines', line=dict(color='grey', dash='dash'), name='Infection Rate')
         fig.add_scatter(x=data['Period'], y=np.full(len(data), ucl_ma_chart), mode='lines', line=dict(color='green'), name='UCL')
         fig.add_scatter(x=data['Period'], y=np.full(len(data), lcl_ma_chart), mode='lines', line=dict(color='red'), name='LCL')
 

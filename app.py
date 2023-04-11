@@ -59,6 +59,14 @@ def upload():
         return render_template('index.html', chart_div=chart_div)
     else:
         return 'Invalid input', 400
+    
+    start_date = request.form.get('start_date')
+    end_date = request.form.get('end_date')
+
+    if start_date and end_date:
+        start_date = pd.to_datetime(start_date)
+        end_date = pd.to_datetime(end_date)
+        df = df[(df['Period'] >= start_date) & (df['Period'] <= end_date)]
 
 import numpy as np
 import plotly.express as px

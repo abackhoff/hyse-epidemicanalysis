@@ -106,8 +106,7 @@ def generate_chart(chart_type, data, ma_window_size=None):
         fig.add_scatter(x=data['Period'], y=lcl_ma_chart, mode='lines', line=dict(color='green'), name='LCL')
 
     fig.update_layout(legend=dict(orientation='h', yanchor='bottom', y=-0.2))
-    fig.show()
-
+    return fig
 
 if __name__ == '__main__':
     app.run(debug=True)

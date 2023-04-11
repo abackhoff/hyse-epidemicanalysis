@@ -51,8 +51,8 @@ def upload():
 
     df = pd.read_excel(excel_file, engine='openpyxl', parse_dates=['Date'])
     
-    start_date = pd.to_datetime(request.form.get('start_date'))
-    end_date = pd.to_datetime(request.form.get('end_date'))
+    start_date = pd.to_datetime(request.form.get('start-date'))
+    end_date = pd.to_datetime(request.form.get('end-date'))
 
     # Filter DataFrame based on start_date and end_date
     df = df[(df['Date'] >= start_date) & (df['Date'] <= end_date)]

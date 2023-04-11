@@ -130,7 +130,7 @@ def generate_chart(chart_type, data, ma_window_size=None):
         fig.add_scatter(x=data['Period'], y=np.full(len(data), lcl_ma_chart), mode='lines', line=dict(color='green'), name='LCL')
         fig.add_scatter(x=data['Period'], y=np.full(len(data), mean_ma), mode='lines', line=dict(color='red'), name='CL')
 
-    fig.update_layout(legend=dict(orientation='h', yanchor='bottom', y=-0.2))
+    fig.update_layout(legend=dict(orientation='h', yanchor='bottom', y=-0.5))
     return fig
 
 if __name__ == '__main__':

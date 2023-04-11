@@ -121,6 +121,24 @@
             font-weight: bold;
             font-size: 16px;
         }
+        .content {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            padding: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .upload-form {
+            text-align: left;
+            width: 40%;
+        }
+
+        .form-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
     <script>
@@ -246,7 +264,7 @@
                 </a>
             </div>
         </div>
-
+        <div class="form-container">
         <div class="upload-form">
             <h3>Upload Excel file and choose analysis parameters</h3>
             <form action="/upload" method="post" enctype="multipart/form-data">
@@ -304,6 +322,7 @@
         <div class="chart-display">
             {{ chart_div | safe }}
         </div>
+    </div>
     </div>
 
     <footer style="background-color: #E50000; color: white; padding: 30px; position: fixed; bottom: 0; width: 100%;">

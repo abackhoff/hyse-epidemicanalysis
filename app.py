@@ -101,13 +101,14 @@ def generate_chart(chart_type, data, ma_window_size=None):
 
         ucl_ma_chart = mean_infection_rate + 3 * std_infection_rate
         lcl_ma_chart = mean_infection_rate - 3 * std_infection_rate
-        lcl_ma_chart = max(0, lcl_ma_chart)
+        lcl_ma_chart = max(0, lcl_ma_chart)  # LCL should not be negative
 
-        fig = px.line(data, x='Period', y='Infection Rate', title='MA-chart', labels={'Infection Rate': 'Infections'})
-        fig.add_scatter(x=data['Period'], y=data['Moving Average'], mode='lines', line=dict(color='red'), name='Moving Average')
+        ucl_ma_chart_array = np.full(len(data['Period']), ucl_ma_chart)
+        lcl_ma_chart_array = np.full(len(data['Period']), lcl_ma_chart)
 
-        fig.add_scatter(x=data['Period'], y=ucl_ma_chart, mode='lines', line=dict(color='green'), name='UCL')
-        fig.add_scatter(x=data['Period'], y=lcl_ma_chart, mode='lines', line=dict(color='green'), name='LCL')
+        fig = px.line(x=data['Period'], y=data['Moving Average'], labels={'x': 'Period', 'y': 'Infection Rate'}, title='Moving Average Chart')
+        fig.add_scatter(x=data['Period'], y=ucl_ma_chart_array, mode='lines', line=dict(color='green'), name='UCL')
+        fig.add_scatter(x=data['Period'], y=lcl_ma_chart_array, mode='lines', line=dict(color='red'), name='LCL')
 
     fig.update_layout(legend=dict(orientation='h', yanchor='bottom', y=-0.2))
     return fig

@@ -123,22 +123,25 @@
         }
         .content {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: flex-start;
             padding: 40px 0;
             flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .upload-form {
             text-align: left;
-            width: 40%;
+            flex: 1;
+            margin-right: 40px;
         }
 
-        .form-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
+        .chart-display {
+            flex: 2;
+            max-width: 700px;
         }
+
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
     <script>
@@ -264,7 +267,6 @@
                 </a>
             </div>
         </div>
-        <div class="form-container">
         <div class="upload-form">
             <h3>Upload Excel file and choose analysis parameters</h3>
             <form action="/upload" method="post" enctype="multipart/form-data">
@@ -323,8 +325,6 @@
             {{ chart_div | safe }}
         </div>
     </div>
-    </div>
-
     <footer style="background-color: #E50000; color: white; padding: 30px; position: fixed; bottom: 0; width: 100%;">
         <span style="float: left; margin-right: 10px; font-family: helvetica neue, sans-serif; font-size: 18px; display: block;">Northeastern Univeristy</span>
         <div class="container" style="clear: both;">

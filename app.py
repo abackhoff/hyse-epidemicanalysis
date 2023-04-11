@@ -1,5 +1,5 @@
 # app.py
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, flash, redirect, url_for
 from flask_mail import Mail, Message
 import pandas as pd
 import numpy as np
@@ -28,7 +28,7 @@ def send_feedback():
     # Create the email message
     msg = Message('Feedback from {}'.format(name),
                   sender=email,
-                  recipients=['your_email_address'])
+                  recipients=['albertobackhoff@gmail.com'])
 
     msg.body = 'From: {}\nEmail: {}\n\n{}'.format(name, email, message)
 

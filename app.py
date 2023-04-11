@@ -65,10 +65,10 @@ import plotly.express as px
 
 def generate_chart(chart_type, data, ma_window_size=None):
     if chart_type == 'u-chart':
-        u_bar = data['Infection Rate'].mean()
-        cl_u_chart = u_bar * data['Sample Size']
-        ucl_u_chart = cl_u_chart + 3 * np.sqrt(cl_u_chart)
-        lcl_u_chart = cl_u_chart - 3 * np.sqrt(cl_u_chart)
+        u_bar = data['Infection Count'].sum() / data['Sample Size'].sum()
+        cl_u_chart = u_bar
+        ucl_u_chart = cl_u_chart + 3 * np.sqrt(cl_u_chart/data['Sample Size'])
+        lcl_u_chart = cl_u_chart - 3 * np.sqrt(cl_u_chart/data['Sample Size'])
         lcl_u_chart = np.where(lcl_u_chart < 0, 0, lcl_u_chart)
 
         fig = px.line(data, x='Period', y='Infection Rate', title='U-chart', labels={'Infection Rate': 'Infections per Sample'})
@@ -80,7 +80,7 @@ def generate_chart(chart_type, data, ma_window_size=None):
         fig.add_scatter(x=data['Period'], y=lcl_u_chart, mode='lines', line=dict(color='green'), name='LCL')
 
     elif chart_type == 'p-chart':
-        p_bar = data['Infection Rate'].mean()
+        p_bar = data['Infection Count'].sum() / data['Sample Size'].sum()
         cl_p_chart = p_bar
         ucl_p_chart = p_bar + 3 * np.sqrt(p_bar * (1 - p_bar) / data['Sample Size'])
         lcl_p_chart = p_bar - 3 * np.sqrt(p_bar * (1 - p_bar) / data['Sample Size'])
@@ -89,7 +89,7 @@ def generate_chart(chart_type, data, ma_window_size=None):
         fig = px.line(data, x='Period', y='Infection Rate', title='P-chart', labels={'Infection Rate': 'Proportion of Infections'})
         fig.add_scatter(x=data['Period'], y=data['Infection Rate'], mode='markers', marker=dict(color=np.where((data['Infection Rate'] > ucl_p_chart) | (data['Infection Rate'] < lcl_p_chart), 'red', 'rgba(0,0,0,0)')), name='Out of Control')
         fig.update_traces(selector=dict(type='scatter', mode='markers'), showlegend=False)
-        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=pbar, y1=pbar, yref='y', xref='x', line=dict(color='red'))
+        fig.add_shape(type='line', x0=data['Period'].min(), x1=data['Period'].max(), y0=cl_p_chart, y1=cl_p_chart, yref='y', xref='x', line=dict(color='red'))
 
         fig.add_scatter(x=data['Period'], y=ucl_p_chart, mode='lines', line=dict(color='green'), name='UCL')
         fig.add_scatter(x=data['Period'], y=lcl_p_chart, mode='lines', line=dict(color='green'), name='LCL')

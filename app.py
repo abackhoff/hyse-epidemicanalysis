@@ -49,7 +49,7 @@ def upload():
     if not excel_file:
         return 'No file uploaded', 400
 
-    df = pd.read_excel(excel_file, engine='openpyxl')
+    df = pd.read_excel(excel_file, engine='openpyxl', parse_dates=['Date'])
     
     df['Infection Rate'] = df['Infection Count'] / df['Sample Size']
 

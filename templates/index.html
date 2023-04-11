@@ -147,32 +147,34 @@
             }
         });
 
+        function parseDate(dateString) {
+            const [month, day, year] = dateString.split('/');
+            return new Date(year, month - 1, day);
+        }
+
         function handleFile(e) {
-        const file = e.target.files[0];
-        if (!file) return;
+            const file = e.target.files[0];
+            if (!file) return;
 
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const data = e.target.result;
-            const workbook = XLSX.read(data, { type: 'binary' });
-            const first_sheet_name = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[first_sheet_name];
-            const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const data = e.target.result;
+                const workbook = XLSX.read(data, { type: 'binary' });
+                const first_sheet_name = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[first_sheet_name];
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-            const dates = jsonData.slice(1).map(row => new Date(row[1]));
-            const minDate = new Date(Math.min.apply(null, dates));
-            const maxDate = new Date(Math.max.apply(null, dates));
-            document.querySelector('#start-date').min = minDate.toISOString().split('T')[0];
-            document.querySelector('#start-date').max = maxDate.toISOString().split('T')[0];
-            document.querySelector('#end-date').min = minDate.toISOString().split('T')[0];
-            document.querySelector('#end-date').max = maxDate.toISOString().split('T')[0];
-        };
-        reader.readAsBinaryString(file);
-    }
+                const dates = jsonData.slice(1).map(row => parseDate(row[1]));
+                const minDate = new Date(Math.min.apply(null, dates));
+                const maxDate = new Date(Math.max.apply(null, dates));
+                document.querySelector('#start-date').min = minDate.toISOString().split('T')[0];
+                document.querySelector('#start-date').max = maxDate.toISOString().split('T')[0];
+                document.querySelector('#end-date').min = minDate.toISOString().split('T')[0];
+                document.querySelector('#end-date').max = maxDate.toISOString().split('T')[0];
+            };
+            reader.readAsBinaryString(file);
+        }
 
-        
-        
-        
         function handlePurposeChange(purposeSelect) {
             var dataTypeLabel = document.getElementById("data_type_label");
             var dataTypeSelect = document.getElementById("data_type");

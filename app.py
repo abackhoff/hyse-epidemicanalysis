@@ -105,7 +105,8 @@ def generate_chart(chart_type, data, ma_window_size=None):
         fig = px.line(data, x='Period', y='Moving Average', title='Moving Average Chart', labels={'Moving Average': 'Infection Rate'})
         fig.add_scatter(x=data['Period'], y=data['Infection Rate'], mode='lines', line=dict(color='grey', dash='dash'), name='Infection Rate')
         fig.add_scatter(x=data['Period'], y=np.full(len(data), ucl_ma_chart), mode='lines', line=dict(color='green'), name='UCL')
-        fig.add_scatter(x=data['Period'], y=np.full(len(data), lcl_ma_chart), mode='lines', line=dict(color='red'), name='LCL')
+        fig.add_scatter(x=data['Period'], y=np.full(len(data), lcl_ma_chart), mode='lines', line=dict(color='green'), name='LCL')
+        fig.add_scatter(x=data['Period'], y=np.full(len(data), mean_ma), mode='lines', line=dict(color='red'), name='CL')
 
     fig.update_layout(legend=dict(orientation='h', yanchor='bottom', y=-0.2))
     return fig

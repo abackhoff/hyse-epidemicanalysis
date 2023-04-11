@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Excel Chart Generator</title>
+    <title>Run Analysis</title>
     <style>
         body {
             margin: 0;
@@ -287,6 +287,11 @@
                     <label for="end-date">Choose Analysis End Date:</label>
                     <input type="date" name="end-date" id="end-date" min="" max="">
                 </div>
+                {% if error_message %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error_message }}
+                    </div>
+                {% endif %}
                 <div class="form-group">
                     <label for="purpose">Purpose:</label>
                     <select name="purpose" id="purpose" onchange="handlePurposeChange(this);" required>

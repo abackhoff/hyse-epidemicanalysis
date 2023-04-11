@@ -121,6 +121,16 @@
             display: block;
         }
         
+        .form-group label[for="start_date"], #start_date {
+            text-align: left;
+            display: block;
+        }
+        
+        .form-group label[for="end_date"], #end_date {
+            text-align: left;
+            display: block;
+        }
+        
         .upload-form label {
             width: 110px;
             text-align: left;
@@ -135,7 +145,41 @@
             display: block;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
     <script>
+        document.getElementById('excel_file').addEventListener('change', function() {
+        // Read the Excel file
+        const file = this.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+
+          // Get the first sheet and convert it to an array of arrays
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+          const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+          // Assuming the first column contains the dates
+          const dateColumn = rows.map(row => new Date(row[0]));
+
+          // Find the minimum and maximum dates
+          const minDate = new Date(Math.min.apply(null, dateColumn));
+          const maxDate = new Date(Math.max.apply(null, dateColumn));
+
+          // Update the hidden input fields and date pickers
+          document.getElementById('min-date').value = minDate.toISOString().substring(0, 10);
+          document.getElementById('max-date').value = maxDate.toISOString().substring(0, 10);
+          document.getElementById('start-date').min = minDate.toISOString().substring(0, 10);
+          document.getElementById('start-date').max = maxDate.toISOString().substring(0, 10);
+          document.getElementById('end-date').min = minDate.toISOString().substring(0, 10);
+          document.getElementById('end-date').max = maxDate.toISOString().substring(0, 10);
+        };
+        reader.readAsArrayBuffer(file);
+      });
+        
+        
+        
         function handlePurposeChange(purposeSelect) {
             var dataTypeLabel = document.getElementById("data_type_label");
             var dataTypeSelect = document.getElementById("data_type");
@@ -236,9 +280,19 @@
         <div class="upload-form">
             <h1>Upload Excel file and choose analysis parameters</h1>
             <form action="/upload" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="min_date" id="min-date" value="">
+                <input type="hidden" name="max_date" id="max-date" value="">
                 <div class="form-group">
                     <label for="excel_file">Excel File:</label>
                     <input type="file" name="excel_file" accept=".xls,.xlsx" required>
+                </div>
+                <div class="form-group">
+                    <label for="start_date">Choose Analysis Start Date:</label>
+                    <input type="date" name="start_date" id="start-date" min="" max="">
+                </div>
+                <div class="form-group">
+                    <label for="end_date">Choose Analysis End Date:</label>
+                    <input type="date" name="end_date" id="end-date" min="" max="">
                 </div>
                 <div class="form-group">
                     <label for="purpose">Purpose:</label>

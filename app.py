@@ -65,10 +65,11 @@ import plotly.express as px
 
 def generate_chart(chart_type, data, ma_window_size=None):
     if chart_type == 'u-chart':
-        cl_u_chart = data['Infection Rate'].mean()
-        ucl_u_chart = cl_u_chart + 3 * np.sqrt(cl_u_chart / data['Sample Size'])
-        lcl_u_chart = cl_u_chart - 3 * np.sqrt(cl_u_chart / data['Sample Size'])
-        lcl_u_chart = np.where(lcl_u_chart < 0, 0, lcl_u_chart)  # LCL should not be negative
+        u_bar = data['Infection Rate'].mean()
+        cl_u_chart = u_bar * data['Sample Size']
+        ucl_u_chart = cl_u_chart + 3 * np.sqrt(cl_u_chart)
+        lcl_u_chart = cl_u_chart - 3 * np.sqrt(cl_u_chart)
+        lcl_u_chart = np.where(lcl_u_chart < 0, 0, lcl_u_chart)
 
         fig = px.line(data, x='Period', y='Infection Rate', title='U-chart', labels={'Infection Rate': 'Infections per Sample'})
         fig.add_scatter(x=data['Period'], y=data['Infection Rate'], mode='markers', marker=dict(color=np.where((data['Infection Rate'] > ucl_u_chart) | (data['Infection Rate'] < lcl_u_chart), 'red', 'rgba(0,0,0,0)')), name='Out of Control')
@@ -79,10 +80,11 @@ def generate_chart(chart_type, data, ma_window_size=None):
         fig.add_scatter(x=data['Period'], y=lcl_u_chart, mode='lines', line=dict(color='green'), name='LCL')
 
     elif chart_type == 'p-chart':
-        pbar = data['Infection Rate'].mean()
-        ucl_p_chart = pbar + 3 * np.sqrt(pbar * (1 - pbar) / data['Sample Size'])
-        lcl_p_chart = pbar - 3 * np.sqrt(pbar * (1 - pbar) / data['Sample Size'])
-        lcl_p_chart = np.where(lcl_p_chart < 0, 0, lcl_p_chart)  # LCL should not be negative
+        p_bar = data['Infection Rate'].mean()
+        cl_p_chart = p_bar
+        ucl_p_chart = p_bar + 3 * np.sqrt(p_bar * (1 - p_bar) / data['Sample Size'])
+        lcl_p_chart = p_bar - 3 * np.sqrt(p_bar * (1 - p_bar) / data['Sample Size'])
+        lcl_p_chart = np.where(lcl_p_chart < 0, 0, lcl_p_chart)
 
         fig = px.line(data, x='Period', y='Infection Rate', title='P-chart', labels={'Infection Rate': 'Proportion of Infections'})
         fig.add_scatter(x=data['Period'], y=data['Infection Rate'], mode='markers', marker=dict(color=np.where((data['Infection Rate'] > ucl_p_chart) | (data['Infection Rate'] < lcl_p_chart), 'red', 'rgba(0,0,0,0)')), name='Out of Control')
@@ -94,10 +96,12 @@ def generate_chart(chart_type, data, ma_window_size=None):
 
     elif chart_type == 'ma-chart':
         data['Moving Average'] = data['Infection Rate'].rolling(window=ma_window_size).mean()
+        mean_infection_rate = data['Infection Rate'].mean()
+        std_infection_rate = data['Infection Rate'].std()
 
-        mstd = data['Infection Rate'].rolling(window=ma_window_size).std()
-        ucl_ma_chart = data['Moving Average'] + 3 * mstd
-        lcl_ma_chart = data['Moving Average'] - 3 * mstd
+        ucl_ma_chart = mean_infection_rate + 3 * std_infection_rate
+        lcl_ma_chart = mean_infection_rate - 3 * std_infection_rate
+        lcl_ma_chart = max(0, lcl_ma_chart)
 
         fig = px.line(data, x='Period', y='Infection Rate', title='MA-chart', labels={'Infection Rate': 'Infections'})
         fig.add_scatter(x=data['Period'], y=data['Moving Average'], mode='lines', line=dict(color='red'), name='Moving Average')
